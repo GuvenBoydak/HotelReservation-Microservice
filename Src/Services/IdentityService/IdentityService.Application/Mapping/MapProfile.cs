@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using IdentityService.Api.Applications.Features.Queries.GetAllUsers;
-using IdentityService.Api.Applications.Features.Queries.GetByIdUser;
 using IdentityService.Application.Features.Commands.Users.UpdateUser;
+using IdentityService.Application.Features.Queries.GetAllUsers;
+using IdentityService.Application.Features.Queries.GetByIdUser;
 using IdentityService.Domain.Models;
 
 namespace IdentityService.Application.Mapping;

@@ -1,4 +1,4 @@
-﻿namespace IdentityService.Api.Applications.Features.Queries.GetByIdUser;
+﻿namespace IdentityService.Application.Features.Queries.GetByIdUser;
 
 public class UserDto
 {

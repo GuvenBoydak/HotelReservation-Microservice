@@ -3,7 +3,7 @@ using IdentityService.Application.Interfaces.Repositories;
 using IdentityService.Domain.Models;
 using MediatR;
 
-namespace IdentityService.Api.Applications.Features.Queries.GetByIdUser;
+namespace IdentityService.Application.Features.Queries.GetByIdUser;
 
 public class GetByIdUserQueryHandler : IRequestHandler<GetByIdUserQuery,UserDto>
 {

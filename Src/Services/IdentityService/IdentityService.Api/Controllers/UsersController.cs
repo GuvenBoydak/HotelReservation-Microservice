@@ -1,10 +1,10 @@
-﻿using IdentityService.Api.Applications.Features.Queries.GetAllUsers;
-using IdentityService.Api.Applications.Features.Queries.GetByIdUser;
-using IdentityService.Application.Dtos;
+﻿using IdentityService.Application.Dtos;
 using IdentityService.Application.Features.Commands.Users.DeleteUser;
 using IdentityService.Application.Features.Commands.Users.LoginUser;
 using IdentityService.Application.Features.Commands.Users.RegisterUser;
 using IdentityService.Application.Features.Commands.Users.UpdateUser;
+using IdentityService.Application.Features.Queries.GetAllUsers;
+using IdentityService.Application.Features.Queries.GetByIdUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
