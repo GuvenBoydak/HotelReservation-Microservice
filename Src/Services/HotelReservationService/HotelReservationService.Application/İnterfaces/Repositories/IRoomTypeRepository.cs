@@ -5,5 +5,4 @@ namespace HotelReservationService.Application.İnterfaces.Repositories;
 
 public interface IRoomTypeRepository:IRepository<RoomType>
 {
-    
 }
