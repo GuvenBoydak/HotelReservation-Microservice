@@ -1,3 +1,7 @@
+using EventBus.Base.Abstraction;
+using HotelReservationService.Application.IntegrationEvent.Events;
+using HotelReservationService.Application.IntegrationEvent.EventsHandler;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -23,3 +27,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+IEventBus eventBus = app.Services.GetRequiredService<IEventBus>();
+eventBus.Subscribe<FailedPaymentIntegrationEvent, FailedPaymentIntegrationEventHandler>();
