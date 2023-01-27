@@ -9,7 +9,7 @@ public class RoomType:BaseEntity
     public bool IsDoubleRoom { get; set; }
     public int Quantity { get; set; }
     public decimal Price { get; set; }
-    
+
     //Relational Property
     public List<Reservation> Reservations { get; set; }
 
