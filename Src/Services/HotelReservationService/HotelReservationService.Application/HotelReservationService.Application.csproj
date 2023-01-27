@@ -8,7 +8,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\EventBus\EventBus.Base\EventBus.Base.csproj" />
-      <ProjectReference Include="..\..\IdentityService\IdentityService.Application\IdentityService.Application.csproj" />
       <ProjectReference Include="..\HotelReservationService.Domain\HotelReservationService.Domain.csproj" />
     </ItemGroup>
 
