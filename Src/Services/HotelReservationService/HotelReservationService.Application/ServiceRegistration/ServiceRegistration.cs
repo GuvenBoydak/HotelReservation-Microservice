@@ -12,7 +12,7 @@ public static class ServiceRegistration
 {
     public static IServiceCollection AddApplicationService(this IServiceCollection service)
     {
-
+        //MediatR
         service.AddMediatR(typeof(ServiceRegistration));
         
         var mapperConfig = new MapperConfiguration(cfg =>

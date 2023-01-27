@@ -1,4 +1,7 @@
+using EventBus.Base;
 using EventBus.Base.Abstraction;
+using EventBus.RabbitMQ;
+using HotelReservationService.Api.Extensions;
 using HotelReservationService.Application.IntegrationEvent.Events;
 using HotelReservationService.Application.IntegrationEvent.EventsHandler;
 using HotelReservationService.Application.ServiceRegistration;
@@ -16,6 +19,19 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationService();
 
+builder.Services.ConfigureAuth(builder.Configuration);
+
+builder.Services.AddSingleton<IEventBus>(sp =>
+{
+    EventBusConfig config = new EventBusConfig()
+    {
+        ConnectionRetryCount = 5,
+        EventNameSuffix = "IntegrationEvent",
+        SubscriberClientAppName = "BasketService"
+    };
+    return new EventBusRabbitMq(config, sp);
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,6 +42,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

@@ -4,10 +4,12 @@ using HotelReservationService.Application.Features.Commands.Package.UpdatePackag
 using HotelReservationService.Application.Features.Queries.Package.GetAllPackageQuery;
 using HotelReservationService.Application.Features.Queries.Package.GetByIdPackageQuery;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelReservationService.Api.Controllers;
 
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class PackagesController:ControllerBase
@@ -22,7 +24,7 @@ public class PackagesController:ControllerBase
     
     [HttpGet]
     [Route("GetAll")]
-    public async Task<IActionResult> GetAll(GetAllPackageQuery request)
+    public async Task<IActionResult> GetAll([FromQuery]GetAllPackageQuery request)
     {
         return Ok(await _mediator.Send(request));
     }

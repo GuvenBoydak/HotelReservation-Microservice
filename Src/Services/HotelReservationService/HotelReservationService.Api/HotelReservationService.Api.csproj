@@ -7,11 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.8" />
+        <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.21.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\EventBus\EventBus.RabbitMQ\EventBus.RabbitMQ.csproj" />
       <ProjectReference Include="..\HotelReservationService.Infrastracture\HotelReservationService.Infrastracture.csproj" />
     </ItemGroup>
 
