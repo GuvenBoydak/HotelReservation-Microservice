@@ -81,6 +81,9 @@ public class EventBusRabbitMq:BaseEventBus
             var properties = _consumerChannel.CreateBasicProperties();
             properties.DeliveryMode = 2;
             
+           // _consumerChannel.QueueDeclare(queue: GetSubName(eventName), durable: true, exclusive: false, autoDelete: true, arguments: null);
+            //_consumerChannel.QueueBind(queue: GetSubName(eventName), exchange: EventBusConfig.DefaultTopicName, routingKey: eventName);
+            
             _consumerChannel.BasicPublish(
                 exchange: EventBusConfig.DefaultTopicName,//Exchange tipi
                 routingKey: eventName,//routingKey 

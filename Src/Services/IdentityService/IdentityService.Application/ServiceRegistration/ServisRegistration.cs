@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Text;
+using AutoMapper;
 using FluentValidation.AspNetCore;
 using IdentityService.Application.Dtos;
 using IdentityService.Application.Mapping;
@@ -9,10 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Shared.Filters;
-using System.Reflection;
-using System.Text;
 
-namespace IdentityService.Api.ServiceRegistration;
+namespace IdentityService.Application.ServiceRegistration;
 
 public static class ServisRegistration
 {

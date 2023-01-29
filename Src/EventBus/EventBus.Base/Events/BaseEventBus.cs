@@ -25,7 +25,7 @@ namespace EventBus.Base.Events
                 eventName = eventName.TrimStart(EventBusConfig.EventNamePrefix.ToArray());  
 
             if(EventBusConfig.DeleteEventSuffix)
-                eventName = eventName.TrimEnd(EventBusConfig.EventNameSuffix.ToArray());
+                eventName = eventName.TrimEnd(EventBusConfig.EventNameSuffix.ToCharArray());
 
             return eventName;
         }

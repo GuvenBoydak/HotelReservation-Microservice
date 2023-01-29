@@ -1,4 +1,4 @@
-using IdentityService.Api.ServiceRegistration;
+using IdentityService.Application.ServiceRegistration;
 using IdentityService.Infrastructure.ServiceRegistration;
 
 var builder = WebApplication.CreateBuilder(args);
