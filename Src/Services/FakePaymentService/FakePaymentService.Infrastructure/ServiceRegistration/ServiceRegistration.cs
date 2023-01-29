@@ -16,7 +16,7 @@ public static class ServiceRegistration
         
         //Repository
         service.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
-        service.AddScoped<ICreditCardRepository, CreditCardRepository>();
+        service.AddScoped<ICreditCardRepository,CreditCardRepository>();
 
         return service;
     }
