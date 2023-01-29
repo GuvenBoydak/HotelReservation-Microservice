@@ -5,6 +5,7 @@ using HotelReservationService.Infrastracture.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Shared.Infrastructure.EntityFramework;
 
 namespace HotelReservationService.Infrastracture.ServiceRegistration;
@@ -22,7 +23,7 @@ public static class ServiceRegistration
         service.AddScoped<IReservationRepository, ReservationRepository>();
         service.AddScoped<IPackageRepository, PackageRepository>();
         service.AddScoped<IRoomTypeRepository, RoomTypeRepository>();
-        
+
         return service;
     }
 }

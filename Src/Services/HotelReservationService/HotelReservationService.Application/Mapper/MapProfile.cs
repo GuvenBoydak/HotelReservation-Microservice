@@ -5,6 +5,7 @@ using HotelReservationService.Application.DTOs.RoomTypeDto;
 using HotelReservationService.Application.Features.Commands.Package.CreatePackage;
 using HotelReservationService.Application.Features.Commands.Package.UpdatePackage;
 using HotelReservationService.Application.Features.Commands.Reservation.CreateReservation;
+using HotelReservationService.Application.Features.Commands.RoomType.CreateRoomType;
 using HotelReservationService.Application.Features.Commands.RoomType.UpdateRoomType;
 using HotelReservationService.Domain.Models;
 
@@ -20,7 +21,7 @@ public class MapProfile:Profile
         
         CreateMap<RoomType, RoomTypeDto>().ReverseMap();
         CreateMap<RoomType, RoomTypeListDto>().ReverseMap();
-        CreateMap<RoomType, CreatePackageCommand>().ReverseMap();
+        CreateMap<RoomType, CreateRoomTypeCommand>().ReverseMap();
         CreateMap<RoomType, UpdateRoomTypeCommand>().ReverseMap();
         
         CreateMap<Package, PackageDto>().ReverseMap();

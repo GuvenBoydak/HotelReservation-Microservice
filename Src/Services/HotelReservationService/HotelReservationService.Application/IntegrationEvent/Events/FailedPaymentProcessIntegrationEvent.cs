@@ -1,8 +1,8 @@
 ﻿namespace HotelReservationService.Application.IntegrationEvent.Events;
 
-public class FailedPaymentIntegrationEvent:EventBus.Base.Events.IntegrationEvent
+public class FailedPaymentProcessIntegrationEvent:EventBus.Base.Events.IntegrationEvent
 {
-    public FailedPaymentIntegrationEvent(string reservationConfirmationNumber)
+    public FailedPaymentProcessIntegrationEvent(string reservationConfirmationNumber)
     {
         ReservationConfirmationNumber = reservationConfirmationNumber;
     }

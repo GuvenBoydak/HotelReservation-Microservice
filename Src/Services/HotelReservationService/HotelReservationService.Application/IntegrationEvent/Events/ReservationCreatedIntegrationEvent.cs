@@ -1,7 +1,7 @@
 ﻿namespace HotelReservationService.Application.IntegrationEvent.Events;
 
 public class ReservationCreatedIntegrationEvent:EventBus.Base.Events.IntegrationEvent
-{
+{            
     public ReservationCreatedIntegrationEvent(string reservationConfirmationNumber, string cardNumber, DateTime cardExpiry, string cardName, string cardCvv, decimal amount, string reservationEmail, string reservationName, DateTime arrivalDate, DateTime departureDate)
     {
         ReservationConfirmationNumber = reservationConfirmationNumber;

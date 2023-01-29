@@ -1,41 +1,23 @@
 ﻿using EventBus.Base.Abstraction;
+using HotelReservationService.Application.Features.Commands.Reservation.DeleteExistingReservation;
 using HotelReservationService.Application.IntegrationEvent.Events;
-using HotelReservationService.Application.İnterfaces.Repositories;
-using Microsoft.Extensions.Logging;
-using Shared.Infrastructure.EntityFramework;
+using MediatR;
 
 namespace HotelReservationService.Application.IntegrationEvent.EventsHandler;
 
-public class FailedPaymentIntegrationEventHandler:IIntegrationEventHandler<FailedPaymentIntegrationEvent>
+public class
+    FailedPaymentProcessIntegrationEventHandler : IIntegrationEventHandler<FailedPaymentProcessIntegrationEvent>
 {
-    private readonly IReservationRepository _reservationRepository;
-    private readonly IRoomTypeRepository _roomTypeRepository;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly ILogger<FailedPaymentIntegrationEvent> _logger;
+    private readonly IMediator _mediator;
 
-    public FailedPaymentIntegrationEventHandler(ILogger<FailedPaymentIntegrationEvent> logger, IReservationRepository reservationRepository, IRoomTypeRepository roomTypeRepository, IUnitOfWork unitOfWork)
+    public FailedPaymentProcessIntegrationEventHandler(IMediator mediator)
     {
-        _logger = logger;
-        _reservationRepository = reservationRepository;
-        _roomTypeRepository = roomTypeRepository;
-        _unitOfWork = unitOfWork;
+        _mediator = mediator;
     }
 
-    public async Task Handle(FailedPaymentIntegrationEvent @event)
+    public async Task Handle(FailedPaymentProcessIntegrationEvent @event)
     {
-        var reservation = _reservationRepository.Where(x=>x.ConfirmationNumber==@event.ReservationConfirmationNumber).FirstOrDefault();
-
-        if (reservation == null)
-            _logger.LogInformation("Reservation not found with reservation confirmation number");
-
-        var roomType = await _roomTypeRepository.GetById(reservation.RoomTypeId);
-        roomType.Quantity += 1;
-        
-        _roomTypeRepository.Update(roomType);
-        await _reservationRepository.DeleteAsync(reservation.Id);
-        
-        _logger.LogInformation("{ReservationReservationConfirmationNumber} Confirmed reservation number has been deleted", reservation.ConfirmationNumber);
-
-        await _unitOfWork.SaveChangesAsync();
+        await _mediator.Send(new DeleteExistingReservationCommand
+            { ReservationConfirmationNumber = @event.ReservationConfirmationNumber });
     }
 }

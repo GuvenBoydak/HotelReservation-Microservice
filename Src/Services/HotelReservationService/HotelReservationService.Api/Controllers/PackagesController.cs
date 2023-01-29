@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HotelReservationService.Api.Controllers;
 
-[Authorize]
+
 [Route("api/[controller]")]
 [ApiController]
 public class PackagesController:ControllerBase
