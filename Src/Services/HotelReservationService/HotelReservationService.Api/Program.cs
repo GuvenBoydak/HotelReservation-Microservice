@@ -11,6 +11,12 @@ using HotelReservationService.Infrastracture.ServiceRegistration;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Host.UseDefaultServiceProvider((context, options) =>
+{
+    options.ValidateOnBuild = false;
+    options.ValidateScopes = false;
+});
+
 // Add services to the container.
 
 builder.Services.AddControllers();

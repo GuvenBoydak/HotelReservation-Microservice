@@ -1,8 +1,8 @@
 ﻿namespace NotificationService.Api.IntegrationEvent.Events;
 
-public class SuccessPaymentIntegrationEvent:EventBus.Base.Events.IntegrationEvent
+public class SuccessPaymentProcessIntegrationEvent:EventBus.Base.Events.IntegrationEvent
 {
-    public SuccessPaymentIntegrationEvent(string reservationConfirmationNumber, string reservationEmail, DateTime arrivalDate, DateTime departureDate, decimal amount, string reservationName)
+    public SuccessPaymentProcessIntegrationEvent(string reservationConfirmationNumber, string reservationEmail, DateTime arrivalDate, DateTime departureDate, decimal amount, string reservationName)
     {
         ReservationConfirmationNumber = reservationConfirmationNumber;
         ReservationEmail = reservationEmail;

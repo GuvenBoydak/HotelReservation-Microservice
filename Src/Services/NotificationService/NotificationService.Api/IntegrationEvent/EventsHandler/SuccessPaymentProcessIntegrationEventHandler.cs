@@ -5,9 +5,9 @@ using NotificationService.Api.Services;
 
 namespace NotificationService.Api.IntegrationEvent.EventsHandler;
 
-public class SuccessPaymentIntegrationEventHandler : IIntegrationEventHandler<SuccessPaymentIntegrationEvent>
+public class SuccessPaymentProcessIntegrationEventHandler : IIntegrationEventHandler<SuccessPaymentProcessIntegrationEvent>
 {
-    public async Task Handle(SuccessPaymentIntegrationEvent @event)
+    public async Task Handle(SuccessPaymentProcessIntegrationEvent @event)
     {
         var paymentSuccessDto = new PaymentSuccessDto()
         {

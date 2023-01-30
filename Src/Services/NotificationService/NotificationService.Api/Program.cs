@@ -13,7 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddTransient<SuccessPaymentIntegrationEventHandler>();
+builder.Services.AddTransient<SuccessPaymentProcessIntegrationEventHandler>();
 builder.Services.AddTransient<FailedPaymentProcessIntegrationEventHandler>();
 
 builder.Services.AddSingleton<IEventBus>(sp =>
@@ -42,8 +42,9 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+IEventBus eventBus = app.Services.GetRequiredService<IEventBus>();
+eventBus.Subscribe<SuccessPaymentProcessIntegrationEvent, SuccessPaymentProcessIntegrationEventHandler>();
+eventBus.Subscribe<FailedPaymentProcessIntegrationEvent, FailedPaymentProcessIntegrationEventHandler>();
+
 app.Run();
 
-IEventBus eventBus = app.Services.GetRequiredService<IEventBus>();
-eventBus.Subscribe<SuccessPaymentIntegrationEvent, SuccessPaymentIntegrationEventHandler>();
-eventBus.Subscribe<FailedPaymentProcessIntegrationEvent, FailedPaymentProcessIntegrationEventHandler>();
