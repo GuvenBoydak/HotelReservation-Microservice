@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Shared.Infrastructure.EntityFramework;
 
 namespace FakePaymentService.Application.ServiceRegistration;
 
