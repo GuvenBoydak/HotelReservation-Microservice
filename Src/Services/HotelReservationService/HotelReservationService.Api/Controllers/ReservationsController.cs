@@ -9,10 +9,11 @@ using HotelReservationService.Application.Features.Queries.Package.GetByIdPackag
 using HotelReservationService.Application.Features.Queries.Reservation.GetAllReservation;
 using HotelReservationService.Application.Features.Queries.Reservation.GetByConfirmationNumberReservation;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelReservationService.Api.Controllers;
-
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class ReservationController : ControllerBase
@@ -26,7 +27,7 @@ public class ReservationController : ControllerBase
 
     [HttpGet]
     [Route("GetAll")]
-    public async Task<IActionResult> GetAll(GetAllReservationQuery request)
+    public async Task<IActionResult> GetAll([FromQuery]GetAllReservationQuery request)
     {
         return Ok(await _mediator.Send(request));
     }

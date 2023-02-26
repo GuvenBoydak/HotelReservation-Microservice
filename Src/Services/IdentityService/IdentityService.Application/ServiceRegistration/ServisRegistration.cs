@@ -2,7 +2,9 @@
 using AutoMapper;
 using FluentValidation.AspNetCore;
 using IdentityService.Application.Dtos;
+using IdentityService.Application.Interfaces.Service;
 using IdentityService.Application.Mapping;
+using IdentityService.Application.Service;
 using IdentityService.Application.Validations;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -15,8 +17,12 @@ namespace IdentityService.Application.ServiceRegistration;
 
 public static class ServisRegistration
 {
-    public static IServiceCollection AddApplicationServices(this IServiceCollection service, IConfiguration configuration)
+    public static IServiceCollection AddApplicationServices(this IServiceCollection service,
+        IConfiguration configuration)
     {
+        //Service
+        service.AddScoped<ITokenHelper, TokenHelper>();
+
         //MediatR
         service.AddMediatR(typeof(ServisRegistration));
 
@@ -32,18 +38,15 @@ public static class ServisRegistration
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
                     ValidateLifetime = true,
-                    ValidIssuer = tokenOptions.Issuer,
-                    ValidAudience = tokenOptions.Audience,
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenOptions.SecurityKey))
+                    IssuerSigningKey =
+                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenOptions.SecurityKey)),
                 };
             });
-        
+
         // FluentValidation
-        service.AddControllers(option => option.Filters.Add<ValidatorFilterAttribute>()).AddFluentValidation(x => 
+        service.AddControllers(option => option.Filters.Add<ValidatorFilterAttribute>()).AddFluentValidation(x =>
             x.RegisterValidatorsFromAssemblyContaining(typeof(LoginUserCommandValidator)));
 
         return service;

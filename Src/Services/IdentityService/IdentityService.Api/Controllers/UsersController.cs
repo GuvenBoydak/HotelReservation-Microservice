@@ -21,8 +21,7 @@ public class UsersController : ControllerBase
     {
         _mediator = mediator;
     }
-
-    //[Authorize(Roles = "Admin")]
+    
     [HttpGet]
     public async Task<ActionResult<List<UserListDto>>> GetAllUser([FromQuery] GetAllUsersQuery request)
     {

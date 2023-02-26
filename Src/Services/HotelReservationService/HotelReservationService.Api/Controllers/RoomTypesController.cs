@@ -5,10 +5,11 @@ using HotelReservationService.Application.Features.Commands.RoomType.UpdateRoomT
 using HotelReservationService.Application.Features.Queries.Package.GetByIdPackageQuery;
 using HotelReservationService.Application.Features.Queries.RoomType.GetAllRoomType;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HotelReservationService.Api.Controllers;
-
+[Authorize]
 [Route("api/[controller]")]
 [ApiController]
 public class RoomTypesController:ControllerBase
@@ -23,7 +24,7 @@ public class RoomTypesController:ControllerBase
     
     [HttpGet]
     [Route("GetAll")]
-    public async Task<IActionResult> GetAll(GetAllRoomTypeQuery request)
+    public async Task<IActionResult> GetAll([FromQuery]GetAllRoomTypeQuery request)
     {
         return Ok(await _mediator.Send(request));
     }

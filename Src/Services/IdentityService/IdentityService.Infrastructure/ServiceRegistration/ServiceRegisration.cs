@@ -22,9 +22,6 @@ namespace IdentityService.Infrastructure.ServiceRegistration
             service.AddScoped<IUserRepository, UserRepository>();
             service.AddScoped<IRoleRepository, RoleRepository>();
 
-            //Service
-            service.AddScoped<ITokenHelper, TokenHelper>();
-
             return service;
         }
     }
