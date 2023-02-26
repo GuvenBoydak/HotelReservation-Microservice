@@ -25,14 +25,14 @@ namespace EventBus.Base.Events
                 eventName = eventName.TrimStart(EventBusConfig.EventNamePrefix.ToArray());  
 
             if(EventBusConfig.DeleteEventSuffix)
-                eventName = eventName.TrimEnd(EventBusConfig.EventNameSuffix.ToCharArray());
+                eventName = eventName.TrimEnd(EventBusConfig.EventNameSuffix.ToArray());
 
             return eventName;
         }
 
         public virtual string GetSubName(string eventName)
         {
-            return $"{ EventBusConfig.SubscriberClientAppName}.{ ProcessEventName(eventName)}";  
+            return $"{EventBusConfig.SubscriberClientAppName}.{ProcessEventName(eventName)}";  
         }
 
         public virtual void Dispose()
@@ -59,7 +59,7 @@ namespace EventBus.Base.Events
 
                         if (handler == null) continue;
                         
-                        var eventType = SubsManager.GetEventTypeByName($"{ EventBusConfig.EventNamePrefix}{eventName}{EventBusConfig.EventNameSuffix }");
+                        var eventType = SubsManager.GetEventTypeByName($"{EventBusConfig.EventNamePrefix}{eventName}{EventBusConfig.EventNameSuffix }");
                         var integrationEvent = JsonConvert.DeserializeObject(message, eventType);
 
                         var concreteType = typeof(IIntegrationEventHandler<>).MakeGenericType(eventType);
