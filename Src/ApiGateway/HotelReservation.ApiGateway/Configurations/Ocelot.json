@@ -1,12 +1,11 @@
 ﻿{
   "Routes": [
-
     {
       "UseServiceDiscovery": true,
       "ServiceName": "IdentityService",
-      "DownstreamPathTemplate": "/api/auth",
+      "DownstreamPathTemplate": "/api/Auth/{everything}",
       "DownstreamScheme": "http",
-      "UpstreamPathTemplate": "/auth",
+      "UpstreamPathTemplate": "/auth/{everything}",
       "UpstreamHttpMethod": [
         "Get", "Post", "Delete", "Put"
       ],
@@ -15,9 +14,9 @@
     {
       "UseServiceDiscovery": true,
       "ServiceName": "HotelReservationService",
-      "DownstreamPathTemplate": "/api/auth",
+      "DownstreamPathTemplate": "/api/HotelReservation/{everything}",
       "DownstreamScheme": "http",
-      "UpstreamPathTemplate": "/auth",
+      "UpstreamPathTemplate": "/hotelreservation/{everything}",
       "UpstreamHttpMethod": [
         "Get", "Post", "Delete", "Put"
       ],
