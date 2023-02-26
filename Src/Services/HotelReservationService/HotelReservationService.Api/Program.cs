@@ -2,11 +2,10 @@ using EventBus.Base;
 using EventBus.Base.Abstraction;
 using EventBus.RabbitMQ;
 using HotelReservationService.Api.Extensions;
+using HotelReservationService.Api.ServiceRegistrations;
 using HotelReservationService.Application.IntegrationEvent.Events;
 using HotelReservationService.Application.IntegrationEvent.EventsHandler;
-using HotelReservationService.Application.İnterfaces.Repositories;
 using HotelReservationService.Application.ServiceRegistration;
-using HotelReservationService.Infrastracture.Repositories;
 using HotelReservationService.Infrastracture.ServiceRegistration;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,6 +29,9 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationService();
 
 builder.Services.ConfigureAuth(builder.Configuration);
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.ConfigureConsul(builder.Configuration);
 
 builder.Services.AddSingleton<IEventBus>(sp =>
 {
@@ -53,13 +55,18 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
 app.UseAuthentication();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
+app.RegisterWithConsul(app.Lifetime);
+
 IEventBus eventBus = app.Services.GetRequiredService<IEventBus>();
 eventBus.Subscribe<FailedPaymentProcessIntegrationEvent, FailedPaymentProcessIntegrationEventHandler>();
+
 app.Run();
 

@@ -1,3 +1,4 @@
+using IdentityService.Api.ServiceRegistrations;
 using IdentityService.Application.ServiceRegistration;
 using IdentityService.Infrastructure.ServiceRegistration;
 
@@ -12,6 +13,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddApplicationServices(builder.Configuration);
 builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.ConfigureConsul(builder.Configuration);
 
 var app = builder.Build();
 
@@ -24,8 +26,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseRouting();
+
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.RegisterWithConsul(app.Lifetime);
 
 app.Run();
