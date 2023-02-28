@@ -8,12 +8,14 @@ using IdentityService.Application.Features.Queries.GetByIdUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared.BaseController;
+using Shared.ResponceDto;
 
 namespace IdentityService.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UsersController : ControllerBase
+public class UsersController : BaseController
 {
     private readonly IMediator _mediator;
 
@@ -21,43 +23,49 @@ public class UsersController : ControllerBase
     {
         _mediator = mediator;
     }
-    
+
     [HttpGet]
-    public async Task<ActionResult<List<UserListDto>>> GetAllUser([FromQuery] GetAllUsersQuery request)
+    public async Task<IActionResult> GetAllUser([FromQuery] GetAllUsersQuery request)
     {
-        return Ok(await _mediator.Send(request));
+        var result = await _mediator.Send(request);
+        return CreateActionResult(CustomResponseDto<List<UserListDto>>.Success(200, result));
     }
 
-   // [Authorize(Roles = "Admin")]
+    // [Authorize(Roles = "Admin")]
     [HttpGet("{Id}")]
-    public async Task<ActionResult<UserDto>> GetByIdUser([FromRoute] GetByIdUserQuery request)
+    public async Task<IActionResult> GetByIdUser([FromRoute] GetByIdUserQuery request)
     {
-        return Ok(await _mediator.Send(request));
+        var result = await _mediator.Send(request);
+        return CreateActionResult(CustomResponseDto<UserDto>.Success(200, result));
     }
 
     [HttpPost("register")]
-    public async Task<ActionResult> RegisterUser([FromBody] RegisterUserCommand request)
+    public async Task<IActionResult> RegisterUser([FromBody] RegisterUserCommand request)
     {
-        return Ok(await _mediator.Send(request));
+        var result = await _mediator.Send(request);
+        return CreateActionResult(CustomResponseDto<UserDto>.Success(200, result));
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<AccessToken>> LoginUser([FromBody] LoginUserCommand request)
+    public async Task<IActionResult> LoginUser([FromBody] LoginUserCommand request)
     {
-        return Ok(await _mediator.Send(request));
+        var result = await _mediator.Send(request);
+        return CreateActionResult(CustomResponseDto<AccessToken>.Success(200, result));
     }
 
-   // [Authorize(Roles = "Admin")]
+    // [Authorize(Roles = "Admin")]
     [HttpPut]
-    public async Task<ActionResult> UpdateUser([FromBody] UpdateUserCommand request)
+    public async Task<IActionResult> UpdateUser([FromBody] UpdateUserCommand request)
     {
-        return Ok(await _mediator.Send(request));
+        var result = await _mediator.Send(request);
+        return CreateActionResult(CustomResponseDto<UserDto>.Success(200, result));
     }
 
-   // [Authorize(Roles = "Admin")]
+    // [Authorize(Roles = "Admin")]
     [HttpDelete("{Id:guid}")]
-    public async Task<ActionResult> DeleteUser([FromRoute] DeleteUserCommand request)
+    public async Task<IActionResult> DeleteUser([FromRoute] DeleteUserCommand request)
     {
-        return Ok(await _mediator.Send(request));
+        await _mediator.Send(request);
+        return CreateActionResult(CustomResponseDto<NoContentDto>.Success(204));
     }
 }

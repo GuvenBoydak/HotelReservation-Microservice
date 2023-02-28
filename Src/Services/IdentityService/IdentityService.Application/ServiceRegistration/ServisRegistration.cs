@@ -44,6 +44,24 @@ public static class ServisRegistration
                         new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenOptions.SecurityKey)),
                 };
             });
+        // // var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["AuthConfig:Secret"]));
+        //     
+        // service.AddAuthentication(opt =>
+        //     {
+        //         opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        //         opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        //     })
+        //     .AddJwtBearer(options =>
+        //     {
+        //         options.TokenValidationParameters = new TokenValidationParameters
+        //         {
+        //             ValidateIssuer = false,
+        //             ValidateAudience = false,
+        //             ValidateLifetime = true,
+        //             ValidateIssuerSigningKey=true,
+        //             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenOptions.SecurityKey))
+        //         };
+        //     });
 
         // FluentValidation
         service.AddControllers(option => option.Filters.Add<ValidatorFilterAttribute>()).AddFluentValidation(x =>

@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
+using HotelReservationService.Application.DTOs.RoomTypeDto;
 using HotelReservationService.Application.İnterfaces.Repositories;
 using MediatR;
 using Shared.Infrastructure.EntityFramework;
 
 namespace HotelReservationService.Application.Features.Commands.RoomType.CreateRoomType;
 
-public class CreateRoomTypeCommandHandler:AsyncRequestHandler<CreateRoomTypeCommand>
+public class CreateRoomTypeCommandHandler : IRequestHandler<CreateRoomTypeCommand, RoomTypeDto>
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IRoomTypeRepository _roomTypeRepository;
@@ -18,11 +19,12 @@ public class CreateRoomTypeCommandHandler:AsyncRequestHandler<CreateRoomTypeComm
         _mapper = mapper;
     }
 
-    protected override async Task Handle(CreateRoomTypeCommand request, CancellationToken cancellationToken)
+    public async Task<RoomTypeDto> Handle(CreateRoomTypeCommand request, CancellationToken cancellationToken)
     {
         var roomType = _mapper.Map<CreateRoomTypeCommand, Domain.Models.RoomType>(request);
 
-        await _roomTypeRepository.AddAsync(roomType);
+        var result = await _roomTypeRepository.AddAsync(roomType);
         await _unitOfWork.SaveChangesAsync();
+        return _mapper.Map<Domain.Models.RoomType, RoomTypeDto>(result);
     }
 }

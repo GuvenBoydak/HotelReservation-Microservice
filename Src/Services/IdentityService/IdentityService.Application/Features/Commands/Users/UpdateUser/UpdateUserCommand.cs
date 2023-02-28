@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using IdentityService.Application.Features.Queries.GetByIdUser;
+using MediatR;
 
 namespace IdentityService.Application.Features.Commands.Users.UpdateUser;
 
-public class UpdateUserCommand:IRequest
+public class UpdateUserCommand:IRequest<UserDto>
 {
     public Guid Id { get; set; }
     public string FirstName { get; set; }

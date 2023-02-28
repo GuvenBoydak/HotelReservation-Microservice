@@ -1,22 +1,21 @@
 ﻿using HotelReservationService.Application.DTOs.ReservationDto;
-using HotelReservationService.Application.Features.Commands.Package.CreatePackage;
-using HotelReservationService.Application.Features.Commands.Package.DeletePackage;
-using HotelReservationService.Application.Features.Commands.Package.UpdatePackage;
 using HotelReservationService.Application.Features.Commands.Reservation.CreateReservation;
 using HotelReservationService.Application.Features.Commands.Reservation.DeleteReservation;
-using HotelReservationService.Application.Features.Queries.Package.GetAllPackageQuery;
-using HotelReservationService.Application.Features.Queries.Package.GetByIdPackageQuery;
 using HotelReservationService.Application.Features.Queries.Reservation.GetAllReservation;
 using HotelReservationService.Application.Features.Queries.Reservation.GetByConfirmationNumberReservation;
+using HotelReservationService.Application.Features.Queries.Reservation.GetByIdReservation;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shared.BaseController;
+using Shared.ResponceDto;
 
 namespace HotelReservationService.Api.Controllers;
+
 [Authorize]
 [Route("api/[controller]")]
 [ApiController]
-public class ReservationController : ControllerBase
+public class ReservationController : BaseController
 {
     private readonly IMediator _mediator;
 
@@ -27,16 +26,18 @@ public class ReservationController : ControllerBase
 
     [HttpGet]
     [Route("GetAll")]
-    public async Task<IActionResult> GetAll([FromQuery]GetAllReservationQuery request)
+    public async Task<IActionResult> GetAll([FromQuery] GetAllReservationQuery request)
     {
-        return Ok(await _mediator.Send(request));
+        var result = await _mediator.Send(request);
+        return CreateActionResult(CustomResponseDto<List<ReservationListDto>>.Success(200, result));
     }
 
     [HttpGet]
     [Route("{Id:guid}")]
-    public async Task<IActionResult> GetById([FromRoute] GetAllReservationQuery request)
+    public async Task<IActionResult> GetById([FromRoute] GetByIdReservationQuery request)
     {
-        return Ok(await _mediator.Send(request));
+        var result = await _mediator.Send(request);
+        return CreateActionResult(CustomResponseDto<ReservationDto>.Success(200, result));
     }
 
     [HttpGet]
@@ -44,18 +45,21 @@ public class ReservationController : ControllerBase
     public async Task<IActionResult> GetByConfirmationNumber(
         [FromRoute] GetByConfirmationNumberReservationQuery request)
     {
-        return Ok(await _mediator.Send(request));
+        var result = await _mediator.Send(request);
+        return CreateActionResult(CustomResponseDto<ReservationDto>.Success(200, result));
     }
 
     [HttpPost]
-    public async Task<ActionResult<CreateReservationDtoResponce>> Create([FromBody] CreateReservationCommand request)
+    public async Task<IActionResult> Create([FromBody] CreateReservationCommand request)
     {
-        return Ok(await _mediator.Send(request));
+        var result = await _mediator.Send(request);
+        return CreateActionResult(CustomResponseDto<CreateReservationDtoResponce>.Success(200, result));
     }
 
     [HttpDelete]
     public async Task<IActionResult> Delete([FromRoute] DeleteReservationCommand request)
     {
-        return Ok(await _mediator.Send(request));
+        await _mediator.Send(request);
+        return CreateActionResult(CustomResponseDto<CreateReservationDtoResponce>.Success(204));
     }
 }

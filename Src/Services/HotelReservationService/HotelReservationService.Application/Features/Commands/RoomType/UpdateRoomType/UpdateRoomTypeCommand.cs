@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using HotelReservationService.Application.DTOs.RoomTypeDto;
+using MediatR;
 
 namespace HotelReservationService.Application.Features.Commands.RoomType.UpdateRoomType;
 
-public class UpdateRoomTypeCommand:IRequest
+public class UpdateRoomTypeCommand:IRequest<RoomTypeDto>
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

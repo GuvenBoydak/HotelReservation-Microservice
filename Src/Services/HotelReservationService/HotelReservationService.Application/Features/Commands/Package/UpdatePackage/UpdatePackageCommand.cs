@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using HotelReservationService.Application.DTOs.PackageDto;
+using MediatR;
 
 namespace HotelReservationService.Application.Features.Commands.Package.UpdatePackage;
 
-public class UpdatePackageCommand:IRequest
+public class UpdatePackageCommand:IRequest<PackageDto>
 {
     public Guid Id { get; set; }
     public string Name { get; set; }

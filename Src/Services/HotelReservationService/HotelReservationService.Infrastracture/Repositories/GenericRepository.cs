@@ -33,9 +33,10 @@ public class GenericRepository<T> : IRepository<T> where T : BaseEntity
         return await Table.ToListAsync();
     }
 
-    public async Task AddAsync(T entity)
+    public async Task<T> AddAsync(T entity)
     {
-        await Table.AddAsync(entity);
+        var result = await Table.AddAsync(entity);
+        return result.Entity;
     }
 
     public async Task DeleteAsync(Guid id)
@@ -48,7 +49,7 @@ public class GenericRepository<T> : IRepository<T> where T : BaseEntity
         Update(entity);
     }
 
-    public void Update(T entity)
+    public T Update(T entity)
     {
         var currentEntity = Table.AsNoTracking().FirstOrDefault(x => x.Id == entity.Id);
         if (currentEntity == null)
@@ -61,5 +62,7 @@ public class GenericRepository<T> : IRepository<T> where T : BaseEntity
             if (property.CurrentValue != null && property.CurrentValue is not Guid)
                 Table.Entry(entity).Property(property.Metadata.Name).IsModified = true;
         }
+
+        return entity;
     }
 }

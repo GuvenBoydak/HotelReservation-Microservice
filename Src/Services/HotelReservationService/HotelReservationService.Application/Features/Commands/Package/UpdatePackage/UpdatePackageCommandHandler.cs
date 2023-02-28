@@ -1,11 +1,12 @@
 ﻿using AutoMapper;
+using HotelReservationService.Application.DTOs.PackageDto;
 using HotelReservationService.Application.İnterfaces.Repositories;
 using MediatR;
 using Shared.Infrastructure.EntityFramework;
 
 namespace HotelReservationService.Application.Features.Commands.Package.UpdatePackage;
 
-public class UpdatePackageCommandHandler : AsyncRequestHandler<UpdatePackageCommand>
+public class UpdatePackageCommandHandler : IRequestHandler<UpdatePackageCommand, PackageDto>
 {
     private readonly IPackageRepository _packageRepository;
     private readonly IMapper _mapper;
@@ -18,11 +19,13 @@ public class UpdatePackageCommandHandler : AsyncRequestHandler<UpdatePackageComm
         _unitOfWork = unitOfWork;
     }
 
-    protected override async Task Handle(UpdatePackageCommand request, CancellationToken cancellationToken)
+    public async Task<PackageDto> Handle(UpdatePackageCommand request, CancellationToken cancellationToken)
     {
         var package = _mapper.Map<UpdatePackageCommand, Domain.Models.Package>(request);
 
-        _packageRepository.Update(package);
+        var result = _packageRepository.Update(package);
         await _unitOfWork.SaveChangesAsync();
+
+        return _mapper.Map<Domain.Models.Package, PackageDto>(result);
     }
 }
