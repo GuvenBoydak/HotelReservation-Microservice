@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+
+  hotel_reservation_integration_test:
+    image: postgres:10.6-alpine
+    container_name: hotel_reservation_test
+    environment:
+      - POSTGRES_DB=Test
+      - POSTGRES_USER=dbadmin
+      - POSTGRES_PASSWORD=dbadmin
+    command:
+      - -c
+      - max_prepared_transactions=10000
+    ports:
+      - "5999:5432"

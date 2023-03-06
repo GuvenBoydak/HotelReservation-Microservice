@@ -12,6 +12,6 @@ public class RoleConfiguration:IEntityTypeConfiguration<Role>
         builder.Property(x => x.Name).HasMaxLength(40).IsRequired();
         builder.HasData(
             new Role() { Id = Guid.NewGuid(), CreatedDate = DateTime.UtcNow, Name = "Admin", IsDeleted = false },
-            new Role() { Id = Guid.NewGuid(), CreatedDate = DateTime.UtcNow, Name = "Admin", IsDeleted = false });
+            new Role() { Id = Guid.NewGuid(), CreatedDate = DateTime.UtcNow, Name = "User", IsDeleted = false });
     }
 }

@@ -9,10 +9,9 @@ public class IdentityDbContext:DbContext
     public IdentityDbContext(DbContextOptions options):base(options)
     {}
 
-
-    public DbSet<Role> Roles { get; set; }
     public DbSet<User> Users { get; set; }
-
+    public DbSet<Role> Roles { get; set; }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new UserConfiguration());
