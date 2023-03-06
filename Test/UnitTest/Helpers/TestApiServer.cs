@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using UnitTest.FakePaymentServiceTest.TestSetup;
+using UnitTest.HotelReservationServiceTest.TestContext;
 using UnitTest.IdentityServerTest.TestContext;
 
 namespace UnitTest.Helpers;
@@ -33,6 +34,7 @@ public class TestApiServer<TProgram, TDbContext> : WebApplicationFactory<TProgra
 
             service.AddScoped<IdentityTestContext>();
             service.AddScoped<FakePaymentTestContext>();
+            service.AddScoped<HotelReservationTestContext>();
         });
     }
 

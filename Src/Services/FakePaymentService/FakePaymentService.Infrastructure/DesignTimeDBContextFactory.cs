@@ -1,5 +1,4 @@
 ﻿using FakePaymentService.Infrastructure.Context;
-using HotelReservationService.Infrastracture;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 

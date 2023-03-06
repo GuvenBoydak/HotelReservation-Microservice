@@ -1,60 +1,93 @@
+using System.Text;
 using EventBus.Base;
 using EventBus.Base.Abstraction;
 using EventBus.RabbitMQ;
 using FakePaymentService.Application.IntegrationEvent.Events;
 using FakePaymentService.Application.IntegrationEvent.EventsHandler;
 using FakePaymentService.Application.ServiceRegistration;
+using FakePaymentService.Infrastructure.Context;
 using FakePaymentService.Infrastructure.ServiceRegistration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace FakePaymentService.Api;
 
-builder.Host.UseDefaultServiceProvider((context, options) =>
+public class Program
 {
-    options.ValidateOnBuild = false;
-    options.ValidateScopes = false;
-});
-// Add services to the container.
-
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddTransient<ReservationCreatedIntegrationEventHandler>();
-
-builder.Services.AddApplicationService();
-builder.Services.AddInfrastructureServices();
-
-builder.Services.AddSingleton<IEventBus>(sp =>
-{
-    EventBusConfig config = new EventBusConfig()
+    public static void Main(string[] args)
     {
-        ConnectionRetryCount = 5,
-        EventNameSuffix = "IntegrationEvent",
-        SubscriberClientAppName = "FakePaymentService"
-    };
-    return new EventBusRabbitMq(config, sp);
-});
+        var builder = WebApplication.CreateBuilder(args);
 
-var app = builder.Build();
+        builder.Host.UseDefaultServiceProvider((context, options) =>
+        {
+            options.ValidateOnBuild = false;
+            options.ValidateScopes = false;
+        });
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
+        // Add services to the container.
+        builder.Services.AddControllers();
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
+
+
+        var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("HotelReservationMicroserviceSuperSecretKey"));
+
+        builder.Services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = signingKey
+                };
+            });
+
+
+        builder.Services.AddTransient<ReservationCreatedIntegrationEventHandler>();
+
+        builder.Services.AddApplicationService();
+        builder.Services.AddInfrastructureServices(builder.Configuration);
+
+        builder.Services.AddSingleton<IEventBus>(sp =>
+        {
+            EventBusConfig config = new EventBusConfig()
+            {
+                ConnectionRetryCount = 5,
+                EventNameSuffix = "IntegrationEvent",
+                SubscriberClientAppName = "FakePaymentService"
+            };
+            return new EventBusRabbitMq(config, sp);
+        });
+
+        var app = builder.Build();
+
+        // Configure the HTTP request pipeline.
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+            app.UseSwaggerUI();
+        }
+
+        app.UseHttpsRedirection();
+
+        app.UseAuthentication();
+
+        app.UseAuthorization();
+
+        app.MapControllers();
+
+        IEventBus eventBus = app.Services.GetRequiredService<IEventBus>();
+        eventBus.Subscribe<ReservationCreatedIntegrationEvent, ReservationCreatedIntegrationEventHandler>();
+
+        app.Run();
+    }
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthentication();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-IEventBus eventBus = app.Services.GetRequiredService<IEventBus>();
-eventBus.Subscribe<ReservationCreatedIntegrationEvent, ReservationCreatedIntegrationEventHandler>();
-
-app.Run();
-
